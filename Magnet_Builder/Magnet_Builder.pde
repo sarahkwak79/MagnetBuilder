@@ -1,15 +1,21 @@
+import g4p_controls.*;
+
 int x = 100;
 int y = 100;
 boolean canDrag = false;
 
-
-void setup(){
-  size(400, 400);
+void setup() {
+  size(1200,500);
+  createGUI();
 }
 
 
+
+
+
+
 void draw(){
-  background(0);
+  background(200);
   
   if (canDrag)
       rect(mouseX, mouseY, 50, 50);
@@ -25,6 +31,13 @@ void mousePressed(){
        canDrag = true;
   } else
       println("Can not move");
+      
+  // create a new magnet and place it at the mouses coordinates    
+      
+      
+      
+      
+  
 }
 
 void mouseReleased(){
@@ -33,5 +46,6 @@ void mouseReleased(){
   y = mouseY;
   canDrag = false;
 }
+
 
 
