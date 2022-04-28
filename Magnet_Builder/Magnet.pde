@@ -25,5 +25,12 @@ class Magnet {
   void place() {
     
   }
+ 
+  void drawMagnets() {
+    for (Magnet m : magnets) {
+      fill(m.colour);
+      rect(m.x, m.y, m.size, m.size);
+    }
+  }
   
 }
