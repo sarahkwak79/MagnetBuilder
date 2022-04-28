@@ -96,4 +96,68 @@ void mouseReleased(){
 }
 
 
+import g4p_controls.*;
 
+int x = 100;
+int y = 100;
+color red = color(255,0,0);
+
+void setup() {
+  size(1200,500);
+  createGUI();
+}
+
+
+Board mainBoard = new Board();
+
+
+
+void draw(){
+  background(200);
+  for (Magnet m : mainBoard.magnets) {
+    if (m.canDrag) {
+      m.x = mouseX;
+      m.y = mouseY;
+    }
+      //rect(mouseX, mouseY, 50, 50);
+
+  println(mouseX, mouseY);
+  }
+  
+  mainBoard.drawMagnets();
+  
+}
+
+void mousePressed(){
+  System.out.println("click!");
+  
+  for (Magnet m : mainBoard.magnets){
+    if (m.x <= mouseX && mouseX <= m.x + 50 && m.y <= mouseY && mouseY <= m.y + 50)  {
+         System.out.println("Can move");
+         m.canDrag = true;
+    }
+    else
+      println("Can not move");
+      
+  }
+  
+  // create a new magnet and place it at the mouses coordinates 
+
+  mainBoard.magnets.add( new Magnet ("square", red, 50, 0, 4, mouseX, mouseY));
+  println(mainBoard.magnets);
+      
+      
+      
+      
+  
+}
+
+void mouseReleased(){
+  System.out.println("released!");
+  x = mouseX;
+  y = mouseY;
+  
+  for (Magnet m : mainBoard.magnets) {
+    m.canDrag = false;
+  }
+}
