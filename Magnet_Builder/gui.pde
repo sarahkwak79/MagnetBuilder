@@ -16,32 +16,55 @@
 
 public void dropList2_click1(GDropList source, GEvent event) { //_CODE_:Colours:577174:
   println("dropList2 - GDropList >> GEvent." + event + " @ " + millis());
+  colourChoice = Colours.getSelectedText();
+  if (colourChoice.equals("Red"))
+    shapeColor = red;
+  else if (colourChoice.equals("Orange"))
+    shapeColor = orange;
+  else if (colourChoice.equals("Yellow"))
+    shapeColor = yellow;
+  else if (colourChoice.equals("Green"))
+    shapeColor = green;
+  else if (colourChoice.equals("Blue"))
+    shapeColor = blue;
+  else if (colourChoice.equals("Purple"))
+    shapeColor = purple;
+  else
+    shapeColor = white;
+    
+  for (Magnet mg: shapeList){
+    if (mg.isSelected){
+      mg.colour = shapeColor;
+      mg.isSelected = false;
+    }
+  } 
+   
 } //_CODE_:Colours:577174:
 
 public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:480129:
   shapeChoice = button1.getText();
-  Magnet mg = new Magnet(pos, 100, 20, 0, 3);
+  Magnet mg = new Magnet(pos, 100, RADIUS, 0, 3, shapeColor);
   shapeList.add(mg);
   pos += 30;
 } //_CODE_:button1:480129:
 
 public void button2_click1(GButton source, GEvent event) { //_CODE_:button2:875460:
   shapeChoice = button2.getText();
-  Magnet mg = new Magnet(pos, 100, 20, 0, 5);
+  Magnet mg = new Magnet(pos, 100, RADIUS, 0, 5, shapeColor);
   shapeList.add(mg);
   pos += 30; 
 } //_CODE_:button2:875460:
 
 public void button3_click1(GButton source, GEvent event) { //_CODE_:button3:820869:
   shapeChoice = button3.getText();
-  Magnet mg = new Magnet(pos, 100, 20, 0, 4);
+  Magnet mg = new Magnet(pos, 100, RADIUS, 0, 4, shapeColor);
   shapeList.add(mg);
   pos += 30;
 } //_CODE_:button3:820869:
 
 public void button4_click1(GButton source, GEvent event) { //_CODE_:button4:340123:
   shapeChoice = button4.getText();
-  Magnet mg = new Magnet(pos, 100, 20, 0, 6);
+  Magnet mg = new Magnet(pos, 100, RADIUS, 0, 6, shapeColor);
   shapeList.add(mg);
   pos += 30;
 } //_CODE_:button4:340123:
