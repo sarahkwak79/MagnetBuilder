@@ -2,11 +2,28 @@ import g4p_controls.*;
 int x = 100;
 int y = 100;
 boolean canDrag = false;
-String shapeChoice = "";
+String shapeChoice = "Red";
 float i;
 ArrayList<Magnet> shapeList = new ArrayList<Magnet>();
 int pos = 30;
 int indexWithMinDist = -1;
+final int RADIUS = 20;
+color sky = color(66, 245, 209);
+color yellow = color(245, 239, 66);
+color white = color(255, 255, 255);
+color red = color(255, 0, 0);
+color orange = color(225, 165, 0);
+color green = color(0, 255, 0);
+color blue = color(0, 0, 255);
+color purple = color(70, 255, 130);
+color shapeColor = red;
+int click = 0;
+long clickTime1 = 0;
+boolean doubleClicked = false;
+boolean hasSelected = false;
+
+String colourChoice = "";
+
 
 void setup(){
   size(400, 400);
@@ -15,12 +32,25 @@ void setup(){
 
 void draw(){
   background(0);
+  fill(255);
+  rect(0, 290, 400, 400);
+  
   if (indexWithMinDist != -1){
     shapeList.get(indexWithMinDist).x = mouseX;
     shapeList.get(indexWithMinDist).y = mouseY;
   }
   for (Magnet mg: shapeList){
+    if (shapeList.indexOf(mg) == indexWithMinDist)
+      fill(sky);
+    else
+      fill(mg.colour);
+      
+    if (mg.isSelected){
+      stroke(153);
+      strokeWeight(4);
+    }
     polygon(mg.x, mg.y, mg.size, mg.rotation, mg.shape);
+    noStroke();
   }  
   
   /*if (canDrag)
@@ -53,40 +83,71 @@ void draw(){
  
 }
 
-void polygon(float x, float y, float radius, float rotation, int sides) {
-  float angle = TWO_PI / sides;
+void polygon(float x, float y, float r, float rotation, int points) {
+  float angle = TWO_PI / points;
   beginShape();
-  if (sides == 3)
+  if (points == 3)
     i = 6;
-  if (sides == 4)
+  if (points == 4)
     i = 4;
-  if (sides == 5)
+  if (points == 5)
     i = 3.3;
-  if (sides == 6)
+  if (points == 6)
     i = 3;
   for (float a = PI/i; a < TWO_PI; a += angle) {
-    float sx = x + cos(a) * radius;
-    float sy = y + sin(a) * radius;
+    float sx = x + cos(a) * r;
+    float sy = y + sin(a) * r;
     vertex(sx, sy);
   }
   endShape(CLOSE);
 }
 
 void mousePressed(){
+  println(mouseX + " " + mouseY);
+  
+    click++;
+  long curTime = System.currentTimeMillis();
+  if (click == 1){
+    clickTime1 = curTime;
+    doubleClicked = false;
+  }
+  if (click == 2){
+    if (System.currentTimeMillis() - clickTime1 < 500){
+       doubleClicked = true;
+       click = 0;
+    }else {
+      clickTime1 = curTime;
+      doubleClicked = false;
+      click = 1;
+    }
+  }
+ 
+  if (!doubleClicked && mouseY < 290){
+    for(Magnet mg: shapeList)
+      mg.isSelected = false;
+  }
+ 
   if (shapeList.size() < 1) return;
-  System.out.println("click!");
   indexWithMinDist = 0;
   double minDist = 100000;
   for (int i = 0; i < shapeList.size(); i++){
-    double dist = sqrt(pow(mouseX - shapeList.get(i).x, 2))
-                  + pow(mouseY - shapeList.get(i).y, 2);
+    double dist = Math.sqrt(Math.pow(mouseX - shapeList.get(i).x, 2) 
+                  + Math.pow(mouseY - shapeList.get(i).y, 2));
     if (dist < minDist){
       indexWithMinDist = i;
       minDist = dist;
     }
   }
-  shapeList.get(indexWithMinDist).x = mouseX;
-  shapeList.get(indexWithMinDist).y = mouseY;
+  double inRange = Math.sqrt(Math.pow(mouseX - shapeList.get(indexWithMinDist).x, 2) 
+                  + Math.pow(mouseY - shapeList.get(indexWithMinDist).y, 2));
+  println(inRange + " " + RADIUS + " " + (inRange < RADIUS));
+  if (inRange < RADIUS){
+    println("Set x and y as mouse position");
+    shapeList.get(indexWithMinDist).x = mouseX;
+    shapeList.get(indexWithMinDist).y = mouseY;
+  } else {
+    indexWithMinDist = -1;
+  }
   /*
   if (x <= mouseX && mouseX <= x + 50 && y <= mouseY && mouseY <= y + 50)  {
        System.out.println("Can move");
@@ -97,11 +158,18 @@ void mousePressed(){
 }
 
 void mouseReleased(){
-  System.out.println("released!");
+  if (doubleClicked && indexWithMinDist != -1){
+    hasSelected = true;
+    shapeList.get(indexWithMinDist).isSelected = true;
+  } else {
+    hasSelected = false;
+  }
   indexWithMinDist = -1;
+  
+  
   //x = mouseX;
   //y = mouseY;
-  canDrag = false;
+  //canDrag = false;
 }
 
 Board mainBoard = new Board();
