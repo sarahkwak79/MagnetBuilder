@@ -30,6 +30,7 @@ void setup(){
   createGUI();
 }
 
+
 void draw(){
   background(0);
   fill(255);
@@ -39,19 +40,31 @@ void draw(){
     shapeList.get(indexWithMinDist).x = mouseX;
     shapeList.get(indexWithMinDist).y = mouseY;
   }
+  //try {
   for (Magnet mg: shapeList){
-    if (shapeList.indexOf(mg) == indexWithMinDist)
+    if (shapeList.indexOf(mg) == indexWithMinDist) 
       fill(sky);
-    else
+    else {
       fill(mg.colour);
-      
+      for (Connector C : mg.Connectors) {
+        //fill(255);
+        rect(C.x, C.y, 3, 3);
+
+    }
+    }
+
+
     if (mg.isSelected){
       stroke(153);
       strokeWeight(4);
     }
+    
     polygon(mg.x, mg.y, mg.size, mg.rotation, mg.shape);
     noStroke();
   }  
+  //}
+  //catch (Exception e) {
+  //}
   
   /*if (canDrag)
     if (shapeChoice.equals("Triangle"))
