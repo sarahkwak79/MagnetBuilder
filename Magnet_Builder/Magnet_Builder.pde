@@ -5,6 +5,7 @@ boolean canDrag = false;
 String shapeChoice = "Red";
 float i;
 ArrayList<Magnet> shapeList = new ArrayList<Magnet>();
+ArrayList<Connector> cList = new ArrayList<Connector>();
 int pos = 30;
 int indexWithMinDist = -1;
 final int RADIUS = 20;
@@ -31,10 +32,12 @@ void setup(){
 }
 
 
+
 void draw(){
   background(0);
   fill(255);
-  rect(0, 290, 400, 400);
+  cList = new ArrayList<Connector>();
+  //rect(0, 290, 400, 400);
   
   if (indexWithMinDist != -1){
     shapeList.get(indexWithMinDist).x = mouseX;
@@ -42,16 +45,43 @@ void draw(){
   }
   //try {
   for (Magnet mg: shapeList){
+
+    mg.placeConnectors();
+    
     if (shapeList.indexOf(mg) == indexWithMinDist) 
       fill(sky);
     else {
-      fill(mg.colour);
-      for (Connector C : mg.Connectors) {
-        //fill(255);
-        rect(C.x, C.y, 3, 3);
+    for (Connector C : mg.Connectors) {
+        fill(255);
+        circle(C.x, C.y, 3);
+        cList.add(C);
+        fill(mg.colour);
+        //for (Connector C2 : mg.Connectors) {
+        //  //println("loop");
+        //  //println(C.x, C2.x, C.y, C2.y);
+        //  if (C.x <= C2.x && C2.x <= C.x + 50 && C.y <= C2.y && C.y <= C.y + 50 && C.ID != C2.ID) {
+        //    println("close");
+        //  }
 
+        //}
+      }
+      //println(mg.Connectors);
+      //fill(255);
     }
-    }
+    //println(cList);
+    for (Connector C : cList) {
+        for (Connector C2 : cList) {
+          //println(C.x, C2.x, C.y, C2.y);
+          //println(C.ID, C2.ID);
+          if (C.x <= C2.x && C2.x <= C.x + 10 && C.y <= C2.y && C2.y <= C.y + 10 && C.ID != C2.ID) {
+            if (shapeList.get(C.ID).locked == false)
+              C.snapTo(C2);
+            break;
+          }
+        }
+      }
+      
+    //}
 
 
     if (mg.isSelected){
@@ -61,53 +91,32 @@ void draw(){
     
     polygon(mg.x, mg.y, mg.size, mg.rotation, mg.shape);
     noStroke();
-  }  
   //}
   //catch (Exception e) {
-  //}
-  
-  /*if (canDrag)
-    if (shapeChoice.equals("Triangle"))
-      polygon(mouseX, mouseY, 50, 0, 3);
-      
-    if (shapeChoice.equals("Square"))
-      polygon(mouseX, mouseY, 50, 0, 4);
-      
-    if (shapeChoice.equals("Pentagon"))
-      polygon(mouseX, mouseY, 50, 0, 5);
-      
-    if (shapeChoice.equals("Hexagon"))
-      polygon(mouseX, mouseY, 50, 0, 6);
-    
-  else{
-    if (shapeChoice.equals("Triangle"))
-      polygon(100, 100, 50, 0, 3);
-      
-    if (shapeChoice.equals("Square"))
-      polygon(100, 100, 50, 0, 4);
-      
-    if (shapeChoice.equals("Pentagon"))
-      polygon(100, 100, 50, 0, 5);
-      
-    if (shapeChoice.equals("Hexagon"))
-      polygon(100, 100, 50, 0, 6);
   }
-  */
  
 }
 
 void polygon(float x, float y, float r, float rotation, int points) {
   float angle = TWO_PI / points;
   beginShape();
-  if (points == 3)
+  if (points == 3){
     i = 6;
-  if (points == 4)
+    r = 22;
+  }
+  if (points == 4){
     i = 4;
-  if (points == 5)
+    r = 28;
+  }
+  if (points == 5){
     i = 3.3;
-  if (points == 6)
+    r = 34;
+  }
+  if (points == 6){
     i = 3;
-  for (float a = PI/i; a < TWO_PI; a += angle) {
+    r = 40;
+  }
+  for (float a = (PI/i) + rotation; a < (TWO_PI) + rotation; a += angle) {
     float sx = x + cos(a) * r;
     float sy = y + sin(a) * r;
     vertex(sx, sy);
@@ -158,6 +167,7 @@ void mousePressed(){
     println("Set x and y as mouse position");
     shapeList.get(indexWithMinDist).x = mouseX;
     shapeList.get(indexWithMinDist).y = mouseY;
+    shapeList.get(indexWithMinDist).locked = false;
   } else {
     indexWithMinDist = -1;
   }
@@ -187,54 +197,3 @@ void mouseReleased(){
 
 Board mainBoard = new Board();
 
-
-
-//void draw(){
-//  background(200);
-//  for (Magnet m : mainBoard.magnets) {
-//    if (m.canDrag) {
-//      m.x = mouseX;
-//      m.y = mouseY;
-//    }
-//      //rect(mouseX, mouseY, 50, 50);
-
-//  println(mouseX, mouseY);
-//  }
-  
-//  mainBoard.drawMagnets();
-  
-//}
-
-//void mousePressed(){
-//  System.out.println("click!");
-  
-//  for (Magnet m : mainBoard.magnets){
-//    if (m.x <= mouseX && mouseX <= m.x + 50 && m.y <= mouseY && mouseY <= m.y + 50)  {
-//         System.out.println("Can move");
-//         m.canDrag = true;
-//    }
-//    else
-//      println("Can not move");
-      
-//  }
-  
-//  // create a new magnet and place it at the mouses coordinates 
-
-//  mainBoard.magnets.add( new Magnet ("square", red, 50, 0, 4, mouseX, mouseY));
-//  println(mainBoard.magnets);
-      
-      
-      
-      
-  
-//}
-
-//void mouseReleased(){
-//  System.out.println("released!");
-//  x = mouseX;
-//  y = mouseY;
-  
-//  for (Magnet m : mainBoard.magnets) {
-//    m.canDrag = false;
-//  }
-//}
