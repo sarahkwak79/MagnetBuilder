@@ -24,19 +24,13 @@ class Connector {
 
   // methods
   
-  void snapTo(Connector C2) {
-    //Magnet oldMagnet = shapeList.get((C2.ID-1));
-    //Magnet newMagnet = new Magnet(oldMagnet.x,oldMagnet.y,oldMagnet.size,oldMagnet.rotation+PI,oldMagnet.shape,oldMagnet.colour);  //shapeList.get(this.ID).rotation;
-    //shapeList.remove((C2.ID-1)); 
-    //shapeList.add(newMagnet);
-    float changeInRotation;
+   void snapTo(Connector C2) {
+    
     float initialRotation = this.rotation;
-    float twoRotation = C2.rotation;
+    float finalRotation = C2.rotation + PI;
+    float changeInRotation = (finalRotation - initialRotation);
     
-    changeInRotation = (initialRotation - twoRotation);
-    
-    
-    shapeList.get(this.ID).rotation -= 2*changeInRotation;//shapeList.get(C2.ID).rotation;
+    shapeList.get(this.ID).rotation += changeInRotation;
     
     
     if (shapeList.get(this.ID).locked == false)
@@ -44,9 +38,8 @@ class Connector {
     else 
       shapeList.get(this.ID).locked = false;
       
-    println(shapeList.get(this.ID).locked);
     shapeList.get(this.ID).placeConnectors();
-    println("snap");
+ 
   }
   
   //void detect(ArrayList sl) { // 
