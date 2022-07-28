@@ -1,6 +1,5 @@
 class Connector {
-  // fields
-
+  // FIELDS
   float rotation;
   float range;
   int ID;
@@ -9,7 +8,7 @@ class Connector {
   float radius;
   int shape;
 
-  // constructor
+  // CONSTRUCTORS
   Connector(float rotation, float range, int ID, float x, float y, int points) {
 
     this.rotation = rotation;
@@ -17,20 +16,26 @@ class Connector {
     this.ID = ID;
     this.x = x;
     this.y = y;
-
-
   }
-
-
-  // methods
   
-   void snapTo(Connector C2) {
+  void snapTo(Connector C2) {
+    float changeInRotation;
+ 
+    double d1x = shapeList.get(this.ID).x - this.x;
+    double d1y = shapeList.get(this.ID).y - this.y;
     
-    float initialRotation = this.rotation;
-    float finalRotation = C2.rotation + PI;
-    float changeInRotation = (finalRotation - initialRotation);
+    double d2x = C2.x - shapeList.get(C2.ID).x;
+    double d2y = C2.y - shapeList.get(C2.ID).y;
     
-    shapeList.get(this.ID).rotation += changeInRotation;
+    
+    changeInRotation = (float)Math.acos((d1x * d2x + d1y * d2y)/(Math.sqrt(d1x * d1x + d1y * d1y) * Math.sqrt(d2x * d2x + d2y * d2y))) ;
+    shapeList.get(this.ID).rotation +=  changeInRotation; //2*changeInRotation;//shapeList.get(C2.ID).rotation;
+    
+    double dx = C2.x - this.x;
+    double dy = C2.y - this.y;
+    
+    shapeList.get(this.ID).x += dx;
+    shapeList.get(this.ID).y += dy;
     
     
     if (shapeList.get(this.ID).locked == false)
@@ -38,26 +43,12 @@ class Connector {
     else 
       shapeList.get(this.ID).locked = false;
       
+    println(shapeList.get(this.ID).locked);
     shapeList.get(this.ID).placeConnectors();
- 
+    connectSound.jump(1.6);
   }
   
-  //void detect(ArrayList sl) { // 
-  //  //for (Magnet mg : sl) {
-  //  //  for (Connector C : mg.Connectors())
-  //  //if { // within range
-  //  //check if it can be placed
-  //  // if yes...
-  //  //connect
-  //  //change rotation to that of the original magnet
-  //  // change rotation of the rest of the shape and other connectors attached
-  //   // }  
-  //   //}
-  //  }
-    
-    
-  //}
-  
+  //Draws the connectors
   void drawConnectors() {
     fill(0,255,0);
     circle(this.x, this.y, 30);
