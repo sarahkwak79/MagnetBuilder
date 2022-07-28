@@ -5,9 +5,9 @@
  * designer and care should be taken when editing this file.
  * Only add/edit code inside the event handlers i.e. only
  * use lines between the matching comment tags. e.g.
-
+ 
  void myBtnEvents(GButton button) { //_CODE_:button1:12356:
-     // It is safe to enter your event code here  
+ // It is safe to enter your event code here  
  } //_CODE_:button1:12356:
  
  * Do not rename this tab!
@@ -43,52 +43,23 @@ public void dropList1_click1(GDropList source, GEvent event) { //_CODE_:Colours:
     }
   }
 } //_CODE_:Colours:780941:
-ArrayList<Integer> xPos = new ArrayList<Integer>();
+
 public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:892562:
   shapeChoice = button1.getText();
   for (Magnet mg : shapeList) {   // updates the shape a magnet is selected
     if (mg.isSelected) {
-     mg.shape = 3;
+      mg.shape = 3;
       return;
     }
   }
 
   Magnet mg = new Magnet(pos, 610, RADIUS, 0, 3, shapeColor);
   shapeList.add(mg);
-  placeSound.jump(1);
   pos += 100;
+  placeSound.jump(1);
 
-  if (pos >= 580){
-    pos = -100;
-  
-    for (int i = 0; i < shapeList.size(); i++){
-      if (shapeList.get(i).x == 480)
-        pos = 580;
-    }
-    for (int i = 0; i < shapeList.size(); i++){
-      if (shapeList.get(i).x == 380)
-        pos = 480;
-    }
-        
-    for (int i = 0; i < shapeList.size(); i++){
-      if (shapeList.get(i).x == 280)
-        pos = 380;
-    }
-    for (int i = 0; i < shapeList.size(); i++){
-      if (shapeList.get(i).x == 180)
-        pos = 280;        
-    }
-    for (int i = 0; i < shapeList.size(); i++){
-      if (shapeList.get(i).x == 80)
-        pos = 180;
-    }
+  if (pos >= 580)
     pos = 80;
-    
-    for (int i = 0; i < shapeList.size(); i++){
-      if (shapeList.get(i).x == 80 && shapeList.get(i).x == 180 && shapeList.get(i).x == 280 && shapeList.get(i).x == 380 && shapeList.get(i).x == 480 && shapeList.get(i).x == 80)
-        pos = -100;
-    }
-  }
 } //_CODE_:button1:892562:
 
 public void button3_click1(GButton source, GEvent event) { //_CODE_:button3:465619:
@@ -100,23 +71,13 @@ public void button3_click1(GButton source, GEvent event) { //_CODE_:button3:4656
     }
   }
 
- for (int i = 0; i < shapeList.size(); i++) {
-    if (shapeList.get(i).x != 80 && shapeList.get(i).x != 180 && shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 80;
-    else if (shapeList.get(i).x != 180 && shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 180;
-    else if (shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480)
-      pos = 280;
-    else if (shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 380;
-    else if (shapeList.get(i).x != 480 )
-      pos = 480;
-    else 
-      pos = -100;
-  }
   Magnet mg = new Magnet(pos, 610, RADIUS, 0, 4, shapeColor);
   shapeList.add(mg);
+  pos += 100;
   placeSound.jump(1);
+
+  if (pos >= 580)
+    pos = 80;
 } //_CODE_:button3:465619:
 
 public void button2_click1(GButton source, GEvent event) { //_CODE_:button2:720035:
@@ -128,23 +89,13 @@ public void button2_click1(GButton source, GEvent event) { //_CODE_:button2:7200
     }
   }
 
-  for (int i = 0; i < shapeList.size(); i++) {
-    if (shapeList.get(i).x != 80 && shapeList.get(i).x != 180 && shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 80;
-    else if (shapeList.get(i).x != 180 && shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 180;
-    else if (shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480)
-      pos = 280;
-    else if (shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 380;
-    else if (shapeList.get(i).x != 480 )
-      pos = 480;
-    else 
-      pos = -100;
-  }
   Magnet mg = new Magnet(pos, 610, RADIUS, 0, 5, shapeColor);
   shapeList.add(mg);
+  pos += 100;
   placeSound.jump(1);
+
+  if (pos >= 580)
+    pos = 80;
 } //_CODE_:button2:720035:
 
 public void button4_click1(GButton source, GEvent event) { //_CODE_:button4:825237:
@@ -155,26 +106,14 @@ public void button4_click1(GButton source, GEvent event) { //_CODE_:button4:8252
       return;
     }
   }
-  
 
- for (int i = 0; i < shapeList.size(); i++) {
-    printArray(shapeList.get(i).x);
-    if (shapeList.get(i).x != 80 && shapeList.get(i).x != 180 && shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 80;
-    else if (shapeList.get(i).x != 180 && shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 180;
-    else if (shapeList.get(i).x != 280 && shapeList.get(i).x != 380 && shapeList.get(i).x != 480)
-      pos = 280;
-    else if (shapeList.get(i).x != 380 && shapeList.get(i).x != 480 )
-      pos = 380;
-    else if (shapeList.get(i).x != 480 )
-      pos = 480;
-    else 
-      pos = -100;
-  }
   Magnet mg = new Magnet(pos, 610, RADIUS, 0, 6, shapeColor);
   shapeList.add(mg);
+  pos += 100;
   placeSound.jump(1);
+
+  if (pos >= 580)
+    pos = 80;
 } //_CODE_:button4:825237:
 
 public void button5_click1(GButton source, GEvent event) { //_CODE_:button5:311007:
@@ -189,14 +128,14 @@ public void button5_click1(GButton source, GEvent event) { //_CODE_:button5:3110
 public void button6_click1(GButton source, GEvent event) { //_CODE_:button6:605913:
   shapeList = new ArrayList<Magnet>();
   pos = 80;
-  breakSound.jump(1.15);
+  releaseSound.jump(1.15);
 } //_CODE_:button6:605913:
 
 
 
 // Create all the GUI controls. 
 // autogenerated do not edit
-public void createGUI(){
+public void createGUI() {
   G4P.messagesEnabled(false);
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
